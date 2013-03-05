@@ -17,5 +17,4 @@
 # limitations under the License.
 #
 
-include_recipe 'vsftpd::_install'
-include_recipe 'vsftpd::_configure'
+package "vsftpd"
