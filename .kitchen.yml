@@ -5,13 +5,6 @@ platforms:
   driver_config:
     box: squeeze-6.0.6
     box_url: http://dl.dropbox.com/u/54390273/vagrantboxes/Squeeze64_VirtualBox4.2.4.box
-- name: wheezy-7.0.0
-  driver_config:
-    box: wheezy-7.0.0
-- name: ubuntu-12.04
-  driver_config:
-    box: ubuntu-12.04
-    box_url: https://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-ubuntu-12.04.box
 - name: ubuntu-10.04
   driver_config:
     box: ubuntu-10.04
