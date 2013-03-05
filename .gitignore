@@ -10,3 +10,5 @@ Berksfile.lock
 
 # Vagrant
 .vagrant
+.kitchen/
+.kitchen.local.yml
