@@ -21,13 +21,12 @@ package "vsftpd"
 
 include_recipe 'vsftpd::_define_service'
 
-if node['platform_family'] == 'debian'
-  directory '/etc/vsftpd' do
-    action :create
-    user 'root'
-    group 'root'
-    mode '755'
-  end
+directory '/etc/vsftpd' do
+  action :create
+  user 'root'
+  group 'root'
+  mode '755'
+  only_if { node['platform_family'] == 'debian' }
 end
 
 config = value_for_platform_family(
