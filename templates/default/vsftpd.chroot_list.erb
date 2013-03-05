@@ -1,0 +1,10 @@
+# chroot_list user file for vsftpd
+# Written by Chef
+# Changes will be overwritten after next
+# chef-client run
+
+<% unless node['vsftpd']['chroot'].empty? or node['vsftpd']['chroot'].nil? %>
+       <% node['vsftpd']['chroot'].each do |user| %>
+<%= user %>
+       <% end %>
+<% end %>

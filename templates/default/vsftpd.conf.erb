@@ -1,0 +1,11 @@
+# Configuration file created by Chef
+# Based on default configuration shipped by CentOS 6
+# Changes to this file will be overwritten after the
+# next chef-client run.
+#
+
+<% node['vsftpd']['config'].each do |option,value| %>
+  <% unless value.nil? or value.empty? %>
+<%= option %>=<%= value %>
+  <% end %>
+<% end %>

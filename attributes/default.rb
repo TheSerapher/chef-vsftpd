@@ -1,0 +1,95 @@
+#
+# Cookbook Name:: vsftpd
+# Attributes:: default
+#
+# Copyright (C) 2013 Sebastian Grewe <sebastian.grewe@gmail.com>
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+# Enable service during startup and start service
+default['vsftpd']['enabled'] = true
+
+# Only allow access to certain users
+# Default: no users are allowed to access FTP
+default['vsftpd']['allowed'] = [ ]
+
+# Depending on configuration of vsftpd allow users to run
+# non-chroot or defines users that have to be chroot'ed
+# Default: chroot all users but those defined here
+default['vsftpd']['chroot'] = [ ]
+
+# Various configuration options with some sane defaults
+# For details on these please check the official documentation
+default['vsftpd']['config'] = {
+  'session_support'             => 'YES',
+  'force_dot_files'             => 'NO',
+  'hide_ids'                    => 'YES',
+  'download_enable'             => 'YES',
+  'anonymous_enable'            => 'NO',
+  'anon_root'                   => '',
+  'anon_world_readable_only'    => 'NO',
+  'anon_upload_enable'          => 'NO',
+  'anon_mkdir_write_enable'     => 'NO',
+  'no_anon_password'            => 'NO',
+  'ftp_username'                => 'ftp',
+  'local_enable'                => 'YES',
+  'local_root'                  => '',
+  'user_config_dir'             => '',
+  'guest_enable'                => 'NO',
+  'guest_username'              => 'ftp',
+  'write_enable'                => 'YES',
+  'local_umask'                 => '022',
+  'dirmessage_enable'           => 'YES',
+  'message_file'                => '.message',
+  'xferlog_enable'              => 'YES',
+  'xferlog_file'                => '/var/log/xferlog',
+  'xferlog_std_format'          => 'YES',
+  'connect_from_port_20'        => 'YES',
+  'chmod_enable'                => 'YES',
+  'chown_uploads'               => 'NO',
+  'chown_username'              => 'nobody',
+  'idle_session_timeout'        => '600',
+  'data_connection_timeout'     => '120',
+  'nopriv_user'                 => 'nobody',
+  'async_abor_enable'           => 'NO',
+  'ascii_upload_enable'         => 'NO',
+  'ascii_download_enable'       => 'NO',
+  'ftpd_banner'                 => 'FTP Service managed by Chef',
+  'banner_file'                 => '',
+  'cmds_allowed'                => '',
+  'deny_email_enable'           => 'NO',
+  'banned_email_file'           => '/etc/vsftpd/banned_emails',
+  'userlist_enable'             => 'YES',
+  'userlist_deny'               => 'NO',
+  'userlist_file'               => '/etc/vsftpd/vsftpd.user_list',
+  'chroot_local_user'           => 'YES',
+  'chroot_list_enable'          => 'YES',
+  'chroot_list_file'            => '/etc/vsftpd/vsftpd.chroot_list',
+  'ls_recurse_enable'           => 'NO',
+  'listen'                      => 'YES',
+  'listen_address'              => node['ipaddress'],
+  'listen_ipv6'                 => 'NO',
+  'listen_address6'             => '',
+  'pasv_enable'                 => 'YES',
+  'pasv_address'                => node['ipaddress'],
+  'pasv_max_port'               => '5555',
+  'pasv_min_port'               => '5590',
+  'port_enable'                 => 'YES',
+  'pam_service_name'            => 'vsftpd',
+  'tcp_wrappers'                => 'YES',
+  'anon_max_rate'               => '0',
+  'local_max_rate'              => '0',
+  'max_clients'                 => '0',
+  'max_per_ip'                  => '0'
+}
