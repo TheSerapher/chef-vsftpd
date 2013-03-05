@@ -6,3 +6,4 @@ gem 'chefspec',   '~> 0.9.0'
 gem 'foodcritic', '~> 1.7.0'
 gem 'rake'
 gem 'vagrant',    '~> 1.0.6'
+gem 'kitchen-vagrant', :group => :integration
