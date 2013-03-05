@@ -15,7 +15,10 @@ Vagrant::Config.run do |config|
       chef.log_level = :debug
       chef.add_recipe "up2date"
       chef.add_recipe "vsftpd"
-      chef.json = { 'platform_family' => 'rhel' }
+      chef.json = {
+        'platform_family' => 'rhel',
+        'vsftpd' => { 'allow' => [ 'vagrant' ], 'chroot' => [ ] }
+      }
     end
   end
   ############################################
@@ -30,7 +33,10 @@ Vagrant::Config.run do |config|
       chef.log_level = :debug
       chef.add_recipe "up2date"
       chef.add_recipe "vsftpd"
-      chef.json = { 'platform_family' => 'debian' }
+      chef.json = {
+        'platform_family' => 'debian',
+        'vsftpd' => { 'allow' => [ 'vagrant' ], 'chroot' => [ ] }
+      }
     end
   end
   ############################################
@@ -45,7 +51,10 @@ Vagrant::Config.run do |config|
       chef.log_level = :debug
       chef.add_recipe "up2date"
       chef.add_recipe "vsftpd"
-      chef.json = { 'platform_family' => 'debian' }
+      chef.json = {
+        'platform_family' => 'debian',
+        'vsftpd' => { 'allow' => [ 'vagrant' ], 'chroot' => [ ] }
+      }
     end
   end
 end
