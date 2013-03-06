@@ -20,6 +20,9 @@
 # Enable service during startup and start service
 default['vsftpd']['enabled'] = true
 
+# Configuration directory of vsftpd
+default['vsftpd']['etcdir'] = '/etc/vsftpd'
+
 # Only allow access to certain users
 # Default: no users are allowed to access FTP
 default['vsftpd']['allowed'] = [ ]
@@ -45,7 +48,7 @@ default['vsftpd']['config'] = {
   'ftp_username'                => 'ftp',
   'local_enable'                => 'YES',
   'local_root'                  => '',
-  'user_config_dir'             => '',
+  'user_config_dir'             => node['vsftpd']['etcdir'] + '/users.d',
   'guest_enable'                => 'NO',
   'guest_username'              => 'ftp',
   'write_enable'                => 'YES',
@@ -69,13 +72,13 @@ default['vsftpd']['config'] = {
   'banner_file'                 => '',
   'cmds_allowed'                => '',
   'deny_email_enable'           => 'NO',
-  'banned_email_file'           => '/etc/vsftpd/banned_emails',
+  'banned_email_file'           => node['vsftpd']['etcdir'] + '/banned_emails',
   'userlist_enable'             => 'YES',
   'userlist_deny'               => 'NO',
-  'userlist_file'               => '/etc/vsftpd/vsftpd.user_list',
+  'userlist_file'               => node['vsftpd']['etcdir'] + '/vsftpd.user_list',
   'chroot_local_user'           => 'YES',
   'chroot_list_enable'          => 'YES',
-  'chroot_list_file'            => '/etc/vsftpd/vsftpd.chroot_list',
+  'chroot_list_file'            => node['vsftpd']['etcdir'] + '/vsftpd.chroot_list',
   'ls_recurse_enable'           => 'NO',
   'listen'                      => 'YES',
   'listen_address'              => node['ipaddress'],

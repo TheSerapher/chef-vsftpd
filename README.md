@@ -65,10 +65,26 @@ your cookbook inside it via Chef Solo.
 
 This command will boot and provision the VM as specified in the `Vagrantfile`:
 
-    $ bundle exec vagrant up
+    $ bundle exec vagrant up <name>
+
+Name refers to any box setup by `test-kitchen`, see below.
 
 (Berkshelf's Vagrant plugin will make your cookbook and its dependencies
 automatically available to Vagrant when creating or provisioning a VM.)
+
+## Kitchen
+
+This cookbook is using [test-kitchen](https://github.com/opscode/test-kitchen)  to propagate the `Vagrantfile`. You
+can review the boxes by using:
+
+    $ bundle exec kitchen list
+
+Each item in this list is a regular vagrant box that can be started as
+usual.
+
+To run the full kitchen suite included in this cookbook simply execute:
+
+    $ bundle exec kitchen test
 
 License and Author
 ==================

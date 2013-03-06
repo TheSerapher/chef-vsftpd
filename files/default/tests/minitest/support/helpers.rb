@@ -1,8 +1,4 @@
-#
-# Cookbook Name:: vsftpd
-# Recipe:: default
-#
-# Copyright (C) 2013 Sebastian Grewe <sebastian.grewe@gmail.com>
+# Copyright 2012, Sebastian Grewe <sebastian@grewe.ca>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,5 +13,14 @@
 # limitations under the License.
 #
 
-include_recipe 'vsftpd::_install'
-include_recipe 'vsftpd::_configure'
+require 'chef/mixin/shell_out'
+require 'net/ftp'
+
+module Helpers
+  module VsftpdTest
+    include Chef::Mixin::ShellOut
+    include MiniTest::Chef::Assertions
+    include MiniTest::Chef::Context
+    include MiniTest::Chef::Resources
+  end
+end
