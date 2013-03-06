@@ -11,22 +11,75 @@ Requirements
 
 * CentOS
 * RHEL
+* Debian
+* Ubuntu
 
 ## Cookbooks:
 
-*No dependencies defined*
+*No other cookbooks required*
 
 Attributes
 ==========
 
-*No attributes defined*
+<table>
+  <tr>
+    <td>Attribute</td>
+    <td>Description</td>
+    <td>Default</td>
+  </tr>
+  <tr>
+    <td><code>node['vsftpd']['enabled']</code></td>
+    <td>Enable and start vsftpd after installation</td>
+    <td><code>true</code></td>
+  </tr>
+  <tr>
+    <td><code>node['vsftpd']['etcdir']</code></td>
+    <td>Where to store additional configuration files</td>
+    <td><code>/etc/vsftpd</code></td>
+  </tr>
+  <tr>
+    <td><code>node['vsftpd']['allowed']</code></td>
+    <td>Array of local users that are allowd to connect via FTP</td>
+    <td><code>[ ]</code></td>
+  </tr>
+  <tr>
+    <td><code>node['vsftpd']['chroot']</code></td>
+    <td>Array of users that will not be chroot'ed</td>
+    <td><code>[ ]</code></td>
+  </tr>
+  <tr>
+    <td><code>node['vsftpd']['config']</code></td>
+    <td>Configuration array with key/value pairs.</td>
+    <td>See <a href="https://security.appspot.com/vsftpd/vsftpd_conf.html">Manpage</a> for details</td>
+  </tr>
+</table>
 
 Recipes
 =======
 
 ## vsftpd::default
 
-Installs/configures vsftpd 
+Installs/configures vsftpd, includes some sub-tasks via `include_recipe`. 
+
+Known Issue
+===========
+
+When using *Ubuntu 12.04* or *Debian Wheezy* you will have issues with
+this cookbook and running `chroot_local_users=YES` in the configuration.
+
+There are some workarounds to overcome this problem:
+
+* [Blake's Coding Blog](http://blakecode.blogspot.de/2012/08/vsftpd-refusing-to-run-with-writable.html)
+* [Ubuntu 12.04 Fix](http://blog.thefrontiergroup.com.au/2012/10/making-vsftpd-with-chrooted-users-work-again/)
+
+The basic gist of these articles:
+
+* revoke write permissions on the users home 
+* setup a different chroot environment via `passwd_chroot_enable=YES`
+* install a patched version of the vsftpd 2.x branch and set
+  `allow_writeable_chroot=YES` to ignore this error
+* use vsftpd 3.x and set `allow_writeable_chroot=YES` to ignore this error
+
 
 Testing
 =======
