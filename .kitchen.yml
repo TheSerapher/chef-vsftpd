@@ -1,0 +1,31 @@
+---
+driver_plugin: vagrant
+platforms:
+- name: squeeze-6.0.6
+  driver_config:
+    box: squeeze-6.0.6
+    box_url: http://dl.dropbox.com/u/54390273/vagrantboxes/Squeeze64_VirtualBox4.2.4.box
+- name: ubuntu-10.04
+  driver_config:
+    box: ubuntu-10.04
+    box_url: https://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-ubuntu-10.04.box
+- name: centos-6.3
+  driver_config:
+    box: centos-6.3
+    box_url: https://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-centos-6.3.box
+- name: centos-5.8
+  driver_config:
+    box: centos-5.8
+    box_url: https://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-centos-5.8.box
+suites:
+- name: default
+  run_list:
+  - recipe[up2date]
+  - recipe[vsftpd]
+  - recipe[minitest-handler]
+  attributes:
+    vsftpd:
+      config:
+        listen_address: 127.0.0.1
+      allowed:
+        - vagrant
