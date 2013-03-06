@@ -14,11 +14,10 @@ describe 'The recipe vsftpd::default' do
         chef_run.should install_package 'vsftpd'
       end
 
-      if platform_family == 'debian'
-        it 'should create configuration directory /etc/vsftpd' do
-          chef_run.should create_directory '/etc/vsftpd'
-        end
-      end
+      it 'should create configuration directory /etc/vsftpd' do
+        chef_run.should create_directory '/etc/vsftpd'
+      end if platform_family == 'debian'
+
       platform_family == 'debian' ? config = '/etc/vsftpd.conf' : config = '/etc/vsftpd/vsftpd.conf'
 
       { config => 'local_enable=YES', '/etc/vsftpd/vsftpd.chroot_list' => 'vagrant', '/etc/vsftpd/vsftpd.user_list' => 'vagrant' }.each do |file,content|
