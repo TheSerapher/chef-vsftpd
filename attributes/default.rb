@@ -96,3 +96,8 @@ default['vsftpd']['config'] = {
   'max_clients'                 => '0',
   'max_per_ip'                  => '0'
 }
+
+# Addresses a compatibility breaking upgrade, might be better to set to NO explicitly but for testing purposes it's enabled
+if node['platform'] == 'ubuntu' && node['platform_version'] == '14.04'
+  default['vsftpd']['config']['allow_writeable_chroot'] = 'YES'
+end

@@ -17,6 +17,10 @@
 # limitations under the License.
 #
 
+if node['platform'] == 'ubuntu' && node['platform_version'] == '14.04'
+  Chef::Platform.set :platform => :ubuntu, :resource => :service, :provider => Chef::Provider::Service::Upstart
+end
+
 if node['vsftpd']['enabled']
   service 'vsftpd' do
     action [ :enable, :start ]
