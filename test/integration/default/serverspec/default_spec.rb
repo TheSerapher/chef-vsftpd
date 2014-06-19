@@ -5,7 +5,7 @@ require 'net/ftp'
 
 describe service('vsftpd') do
   os = backend(Serverspec::Commands::Base).check_os
-  if os[:family] != 'RedHat' && !os[:release].include?('5.')
+  if os[:family] == 'RedHat' && os[:release].include?('5.')
     it 'skipped' do
       skip 'chkconfig and service not working via sudo'
     end
@@ -31,8 +31,8 @@ end
 
 describe 'FTP localhost' do
   os = backend(Serverspec::Commands::Base).check_os
-  if !((os[:family] == 'Debian' && os[:release].include?('7.')) ||
-       (os[:family] == 'Ubuntu' && os[:release].include?('12.04')))
+  if (os[:family] == 'Debian' && os[:release].include?('7.')) ||
+     (os[:family] == 'Ubuntu' && os[:release].include?('12.04'))
     it 'skipped' do
       skip 'allow_writeable_chroot=YES not available'
     end
