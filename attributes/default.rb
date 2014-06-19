@@ -1,22 +1,3 @@
-#
-# Cookbook Name:: vsftpd
-# Attributes:: default
-#
-# Copyright (C) 2013 Sebastian Grewe <sebastian.grewe@gmail.com>
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
-
 # Enable service during startup and start service
 default['vsftpd']['enabled'] = true
 
@@ -96,3 +77,8 @@ default['vsftpd']['config'] = {
   'max_clients'                 => '0',
   'max_per_ip'                  => '0'
 }
+
+# Addresses a compatibility breaking upgrade, might be better to set to NO explicitly but for testing purposes it's enabled
+if node['platform'] == 'ubuntu' && node['platform_version'] == '14.04'
+  default['vsftpd']['config']['allow_writeable_chroot'] = 'YES'
+end

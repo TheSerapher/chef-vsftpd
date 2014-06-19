@@ -1,28 +1,23 @@
 ---
-driver_plugin: vagrant
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_zero
+
 platforms:
-- name: squeeze-6.0.6
-  driver_config:
-    box: squeeze-6.0.6
-    box_url: http://dl.dropbox.com/u/54390273/vagrantboxes/Squeeze64_VirtualBox4.2.4.box
-- name: ubuntu-10.04
-  driver_config:
-    box: ubuntu-10.04
-    box_url: https://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-ubuntu-10.04.box
-- name: centos-6.3
-  driver_config:
-    box: centos-6.3
-    box_url: https://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-centos-6.3.box
-- name: centos-5.8
-  driver_config:
-    box: centos-5.8
-    box_url: https://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-centos-5.8.box
+  - name: centos-6.5
+  - name: centos-5.10
+  - name: ubuntu-12.04
+  - name: ubuntu-14.04
+  - name: debian-7.4
+  - name: debian-6.0.8
+
 suites:
 - name: default
   run_list:
-  - recipe[up2date]
-  - recipe[vsftpd]
-  - recipe[minitest-handler]
+    - recipe[up2date]
+    - recipe[vsftpd]
   attributes:
     vsftpd:
       config:

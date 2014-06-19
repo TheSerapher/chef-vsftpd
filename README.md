@@ -96,6 +96,7 @@ provides the following tasks:
     rake chefspec    # Run ChefSpec examples
     rake foodcritic  # Run Foodcritic lint checks
     rake knife       # Run knife cookbook test
+    rake rubocop     # Run rubocop checks
     rake test        # Run all tests
 
 ## Bundler
@@ -103,7 +104,8 @@ provides the following tasks:
 If you prefer to let [Bundler](http://gembundler.com) install all required gems
 (you should), run the tests this way:
 
-    $ bundle install
+    $ # I like to install them in a parent folder so all cookbooks can use it
+    $ bundle install --path=../vendor/bundle
     $ bundle exec rake test
 
 ## Berkshelf
@@ -111,33 +113,20 @@ If you prefer to let [Bundler](http://gembundler.com) install all required gems
 [Berkshelf](http://berkshelf.com) is used to set up the cookbook and its
 dependencies (as defined in `Berksfile`) prior to testing with Rake and Vagrant.
 
-## Vagrant
-
-With [Vagrant](http://vagrantup.com), you can spin up a virtual machine and run
-your cookbook inside it via Chef Solo.
-
-This command will boot and provision the VM as specified in the `Vagrantfile`:
-
-    $ bundle exec vagrant up <name>
-
-Name refers to any box setup by `test-kitchen`, see below.
-
-(Berkshelf's Vagrant plugin will make your cookbook and its dependencies
-automatically available to Vagrant when creating or provisioning a VM.)
-
 ## Kitchen
 
-This cookbook is using [test-kitchen](https://github.com/opscode/test-kitchen)  to propagate the `Vagrantfile`. You
+This cookbook is using [test-kitchen](https://github.com/opscode/test-kitchen) to create machines. You
 can review the boxes by using:
 
     $ bundle exec kitchen list
 
-Each item in this list is a regular vagrant box that can be started as
-usual.
-
 To run the full kitchen suite included in this cookbook simply execute:
 
     $ bundle exec kitchen test
+    
+You can also verify/converge/test any specific machine from the previous list output:
+
+    $ bundle exec kitchen verify <instance>
 
 License and Author
 ==================
