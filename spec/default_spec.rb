@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-require 'chefspec'
+require 'spec_helper'
 
 describe 'vsftpd::default' do
   { 'redhat' => '6.5', 'debian' => '7.5' }.each do |platform_family, platform_version|

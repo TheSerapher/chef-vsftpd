@@ -40,14 +40,13 @@ task 'foodcritic' do
 end
 
 desc 'Run ChefSpec examples'
-task 'chefspec' => 'setup_cookbooks' do
-  sh 'rspec', '--color', '--format', 'documentation',
-     File.join(COOKBOOKS_PATH, COOKBOOK_NAME, 'spec')
+task 'chefspec' do
+  sh 'rspec', '--color', '--format', 'documentation'
 end
 
 desc 'Run Rubocop'
 task :rubocop do
-  sh 'rubocop', '-fs'
+  sh 'rubocop', '-fs', File.join(COOKBOOKS_PATH, COOKBOOK_NAME)
 end
 
 desc 'Run all tests'
