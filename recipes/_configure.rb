@@ -20,6 +20,7 @@ directory node['vsftpd']['config']['user_config_dir'] do
 end
 
 config = value_for_platform_family(
+  'rhel' => '/etc/vsftpd/vsftpd.conf',
   'redhat' => '/etc/vsftpd/vsftpd.conf',
   'centos' => '/etc/vsftpd/vsftpd.conf',
   'debian' => '/etc/vsftpd.conf'
