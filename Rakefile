@@ -1,5 +1,6 @@
+# encoding: utf-8
+
 require 'chef/cookbook/metadata'
-require 'ci/reporter/rake/rspec'
 
 def cookbook_metadata
   metadata = Chef::Cookbook::Metadata.new
@@ -23,25 +24,25 @@ COOKBOOKS_PATH = ENV['COOKBOOKS_PATH'] || 'cookbooks'
 desc 'Install cookbooks from Berksfile'
 task :setup_cookbooks do
   rm_rf COOKBOOKS_PATH
-  sh 'berks', 'install', '--path', COOKBOOKS_PATH
+  sh 'berks', 'vendor', COOKBOOKS_PATH
 end
 
 desc 'Run knife cookbook test'
-task :knife => :setup_cookbooks do
-  sh 'knife', 'cookbook', 'test', COOKBOOK_NAME, '--config', 'knife.rb',
-    '--cookbook-path', COOKBOOKS_PATH
+task 'knife' => 'setup_cookbooks' do
+  sh 'knife', 'cookbook', 'test', COOKBOOK_NAME, '--config', '.knife.rb',
+     '--cookbook-path', COOKBOOKS_PATH
 end
 
 desc 'Run Foodcritic lint checks'
-task :foodcritic => :setup_cookbooks do
+task 'foodcritic' do
   sh 'foodcritic', '--epic-fail', 'any',
-    File.join(COOKBOOKS_PATH, COOKBOOK_NAME)
+     '-X', 'cookbooks', '.'
 end
 
 desc 'Run ChefSpec examples'
-task :chefspec => [:setup_cookbooks, 'ci:setup:rspec'] do
+task 'chefspec' => 'setup_cookbooks' do
   sh 'rspec', '--color', '--format', 'documentation',
-    File.join(COOKBOOKS_PATH, COOKBOOK_NAME, 'spec')
+     File.join(COOKBOOKS_PATH, COOKBOOK_NAME, 'spec')
 end
 
 desc 'Run Rubocop'
@@ -50,13 +51,10 @@ task :rubocop do
 end
 
 desc 'Run all tests'
-task :test => [:knife, :foodcritic, :chefspec, :rubocop]
+task 'test' => %w( knife foodcritic chefspec rubocop )
 
 # Default, test everything
-task :default => :test
-
-# aliases
-task :lint => :foodcritic
+task 'default' => 'test'
 
 # Cleanup testing cookbooks
 at_exit { rm_rf COOKBOOKS_PATH }
