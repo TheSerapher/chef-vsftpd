@@ -3,14 +3,6 @@
 # Include service definition now
 include_recipe 'vsftpd::_define_service'
 
-directory node['vsftpd']['etcdir'] do
-  action :create
-  user 'root'
-  group 'root'
-  mode '755'
-  only_if { node['platform_family'] == 'debian' }
-end
-
 directory node['vsftpd']['config']['user_config_dir'] do
   action :create
   user 'root'
