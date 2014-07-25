@@ -79,6 +79,6 @@ default['vsftpd']['config'] = {
 }
 
 # Addresses a compatibility breaking upgrade, might be better to set to NO explicitly but for testing purposes it's enabled
-if node['platform'] == 'ubuntu' && node['platform_version'] == '14.04'
+if (node['platform'] == 'ubuntu' && node['platform_version'].to_f >= 14.04) || (node['platform'] == 'centos' && node['platform_version'].to_f >= 7.0)
   default['vsftpd']['config']['allow_writeable_chroot'] = 'YES'
 end
