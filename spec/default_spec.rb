@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-require 'chefspec'
+require 'spec_helper'
 
 describe 'vsftpd::default' do
   { 'redhat' => '6.5', 'debian' => '7.5' }.each do |platform_family, platform_version|
@@ -17,8 +17,8 @@ describe 'vsftpd::default' do
         expect(@chef_run).to install_package('vsftpd')
       end
 
-      it 'should create configuration directory /etc/vsftpd' do
-        expect(@chef_run).to create_directory('/etc/vsftpd')
+      it 'should create configuration directory /etc/vsftpd/users.d'do
+        expect(@chef_run).to create_directory('/etc/vsftpd/users.d')
       end if platform_family == 'debian'
 
       platform_family == 'debian' ? config = '/etc/vsftpd.conf' : config = '/etc/vsftpd/vsftpd.conf'

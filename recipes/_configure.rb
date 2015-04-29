@@ -1,5 +1,4 @@
 # encoding: utf-8
-
 directory node['vsftpd']['etcdir'] do
   action :create
   user 'root'
