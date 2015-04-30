@@ -1,4 +1,4 @@
-Description
+Description ![Travis-CI](https://travis-ci.org/TheSerapher/chef-vsftpd.svg?branch=master "Travis-CI")
 ===========
 
 A vsftpd Chef cookbook to install and configure a standard vsftpd
