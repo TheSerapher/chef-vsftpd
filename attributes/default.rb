@@ -4,6 +4,13 @@ default['vsftpd']['enabled'] = true
 # Configuration directory of vsftpd
 default['vsftpd']['etcdir'] = '/etc/vsftpd'
 
+# This is different on some distributions
+default['vsftpd']['configfile'] = value_for_platform_family(
+  'rhel'   => '/etc/vsftpd/vsftpd.conf',
+  'debian' => '/etc/vsftpd.conf',
+  'default' => '/etc/vsftpd.conf'
+)
+
 # Only allow access to certain users
 # Default: no users are allowed to access FTP
 default['vsftpd']['allowed'] = [ ]

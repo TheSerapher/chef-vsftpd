@@ -1,59 +1,68 @@
 # encoding: utf-8
+# Style tests. Rubocop and Foodcritic
+namespace :style do
+  begin
+    require 'rubocop/rake_task'
+    desc 'Run Ruby style checks'
+    RuboCop::RakeTask.new(:ruby)
+  rescue LoadError
+    puts '>>>>> Rubocop gem not loaded, omitting tasks' unless ENV['CI']
+  end
 
-require 'chef/cookbook/metadata'
+  begin
+    require 'foodcritic'
 
-def cookbook_metadata
-  metadata = Chef::Cookbook::Metadata.new
-  metadata.from_file 'metadata.rb'
-  metadata
+    desc 'Run Chef style checks'
+    FoodCritic::Rake::LintTask.new(:chef) do |t|
+      t.options = {
+        fail_tags: ['any']
+      }
+    end
+  rescue LoadError
+    puts '>>>>> foodcritic gem not loaded, omitting tasks' unless ENV['CI']
+  end
 end
+# Alias
+task style: ['style:chef', 'style:ruby']
 
-def cookbook_name
-  name = cookbook_metadata.name
-  if name.nil? || name.empty?
-    File.basename(File.dirname(__FILE__))
-  else
-    name
+# Integration tests. Kitchen.ci
+namespace :integration do
+  begin
+    require 'kitchen/rake_tasks'
+
+    desc 'Run kitchen integration tests'
+    Kitchen::RakeTasks.new
+  rescue LoadError
+    puts '>>>>> Kitchen gem not loaded, omitting tasks' unless ENV['CI']
+  end
+end
+# Alias
+task integration: ['integration:kitchen:all']
+
+# Unit tests with rspec/chefspec
+namespace :unit do
+  begin
+    require 'rspec/core/rake_task'
+    require 'ci/reporter/rake/rspec'
+    desc 'Run unit tests with RSpec/ChefSpec and CI Reporter'
+    # rspec for CI testing
+    RSpec::Core::RakeTask.new('rspec:ci' => 'ci:setup:rspec') do |t|
+      t.rspec_opts = '--format documentation'
+    end
+    desc 'Run unit tests with RSpec/ChefSpec and console logging'
+    # Same thing but for command line output
+    RSpec::Core::RakeTask.new('rspec') do |t|
+      t.rspec_opts = [].tap do |a|
+        a.push('--color')
+        a.push('--format documentation')
+      end.join(' ')
+    end
+  rescue LoadError
+    puts '>>>>> rspec gem not loaded, omitting tasks' unless ENV['CI']
   end
 end
 
-VAGRANT = ENV['VAGRANT'] || false
-COOKBOOK_NAME = ENV['COOKBOOK_NAME'] || cookbook_name
-COOKBOOKS_PATH = ENV['COOKBOOKS_PATH'] || 'cookbooks'
+desc 'Run full test stack'
+task test: ['style', 'unit:rspec:ci', 'integration:kitchen:all']
 
-desc 'Install cookbooks from Berksfile'
-task :setup_cookbooks do
-  rm_rf COOKBOOKS_PATH
-  sh 'berks', 'vendor', COOKBOOKS_PATH
-end
-
-desc 'Run knife cookbook test'
-task 'knife' => 'setup_cookbooks' do
-  sh 'knife', 'cookbook', 'test', COOKBOOK_NAME, '--config', '.knife.rb',
-     '--cookbook-path', COOKBOOKS_PATH
-end
-
-desc 'Run Foodcritic lint checks'
-task 'foodcritic' do
-  sh 'foodcritic', '--epic-fail', 'any',
-     '-X', 'cookbooks', '.'
-end
-
-desc 'Run ChefSpec examples'
-task 'chefspec' do
-  sh 'rspec', '--color', '--format', 'documentation'
-end
-
-desc 'Run Rubocop'
-task :rubocop do
-  sh 'rubocop', '-fs', File.join(COOKBOOKS_PATH, COOKBOOK_NAME)
-end
-
-desc 'Run all tests'
-task 'test' => %w( knife foodcritic chefspec rubocop )
-
-# Default, test everything
-task 'default' => 'test'
-
-# Cleanup testing cookbooks
-at_exit { rm_rf COOKBOOKS_PATH }
+task default: %w(style unit:rspec:ci)

@@ -14,3 +14,6 @@ Berksfile.lock
 # Kitchen
 .kitchen/
 .kitchen.local.yml
+
+# ChefSpec
+/spec/reports/*
