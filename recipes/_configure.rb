@@ -4,7 +4,6 @@ directory node['vsftpd']['etcdir'] do
   user 'root'
   group 'root'
   mode '755'
-  only_if { node['platform_family'] == 'debian' }
 end
 
 directory node['vsftpd']['config']['user_config_dir'] do
@@ -15,18 +14,10 @@ directory node['vsftpd']['config']['user_config_dir'] do
   recursive true
 end
 
-config = value_for_platform_family(
-  'rhel' => '/etc/vsftpd/vsftpd.conf',
-  'redhat' => '/etc/vsftpd/vsftpd.conf',
-  'centos' => '/etc/vsftpd/vsftpd.conf',
-  'debian' => '/etc/vsftpd.conf'
-)
-
-# rubocop:disable Style/LineLength,
-{ 'vsftpd.conf.erb' => config,
+{ 'vsftpd.conf.erb' => node['vsftpd']['configfile'],
   'vsftpd.chroot_list.erb' => node['vsftpd']['config']['chroot_list_file'],
-  'vsftpd.user_list.erb' => node['vsftpd']['config']['userlist_file'] }.each do |template, destination|
-  # rubocop:enable Style/LineLength
+  'vsftpd.user_list.erb' => node['vsftpd']['config']['userlist_file']
+}.each do |template, destination|
   template destination do
     source template
     notifies :restart, 'service[vsftpd]', :delayed
