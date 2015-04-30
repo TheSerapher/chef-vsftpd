@@ -2,11 +2,9 @@
 
 require 'serverspec'
 require 'net/ftp'
-
-include Serverspec::Helper::Exec
-include Serverspec::Helper::DetectOS
-
 require 'rspec/expectations'
+
+set :backend, :exec
 
 def ftp(host, user, password)
   ftp = Net::FTP.new(host)

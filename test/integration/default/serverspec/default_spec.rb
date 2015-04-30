@@ -1,11 +1,9 @@
 # encoding: utf-8
 
 require 'spec_helper'
-require 'net/ftp'
 
 describe service('vsftpd') do
-  os = backend(Serverspec::Commands::Base).check_os
-  if os[:family] == 'RedHat' && os[:release].include?('5.')
+  if os[:family] == 'redhat' && os[:release].include?('5.')
     it 'skipped' do
       skip 'chkconfig and service not working via sudo'
     end
@@ -30,18 +28,17 @@ describe port(21) do
 end
 
 describe 'FTP localhost' do
-  os = backend(Serverspec::Commands::Base).check_os
-  if (os[:family] == 'Debian' && os[:release].include?('7.')) ||
-     (os[:family] == 'Ubuntu' && os[:release].include?('12.04'))
+  if (os[:family] == 'debian' && os[:release].include?('7.')) ||
+     (os[:family] == 'ubuntu' && os[:release].include?('12.04'))
     it 'skipped' do
       skip 'allow_writeable_chroot=YES not available'
     end
   else
     it 'should allow vagrant/vagrant login' do
-      ftp('localhost', 'vagrant', 'vagrant').should be_kind_of(TrueClass)
+      expect(ftp('localhost', 'vagrant', 'vagrant')).to be_kind_of(TrueClass)
     end
   end
   it 'should disallow root/root login' do
-    ftp('localhost', 'root', 'root').should_not be_kind_of(TrueClass)
+    expect(ftp('localhost', 'root', 'root')).to_not be_kind_of(TrueClass)
   end
 end
