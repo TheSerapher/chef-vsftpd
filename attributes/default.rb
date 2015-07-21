@@ -20,6 +20,7 @@ default['vsftpd']['allowed'] = [ ]
 # Default: chroot all users but those defined here
 default['vsftpd']['chroot'] = [ ]
 
+
 # Various configuration options with some sane defaults
 # For details on these please check the official documentation
 default['vsftpd']['config'] = {
@@ -82,8 +83,24 @@ default['vsftpd']['config'] = {
   'anon_max_rate'               => '0',
   'local_max_rate'              => '0',
   'max_clients'                 => '0',
-  'max_per_ip'                  => '0'
+  'max_per_ip'                  => '0',
+	'ssl_enable'                  => 'YES',
+	'allow_anon_ssl'              => 'NO',
+	'force_local_data_ssl'        => 'NO',
+	'force_local_logins_ssl'      => 'NO',
+	'ssl_tlsv1'                   => 'YES',
+	'ssl_sslv2'                   => 'NO',
+	'ssl_sslv3'                   => 'NO',
+	'rsa_cert_file'               => node['vsftpd']['etcdir'] + '/vsftpd.pem',
+	'rsa_private_key_file'        => node['vsftpd']['etcdir'] + '/vsftpd.key'
 }
+
+# If ssl_enable == 'YES', set these parameters for the certificate to be created. Refer to the openssl cookbook's openssl_x509 LWRP and the _ssl.rb recipe for more options.
+default['vsftpd']['ssl']['common_name'] = 'www.example.com'
+default['vsftpd']['ssl']['org']         = 'Example Company'
+default['vsftpd']['ssl']['org_unit']    = 'Research and Development'
+default['vsftpd']['ssl']['country']     = 'US'
+
 
 # Addresses a compatibility breaking upgrade, might be better to set to NO explicitly but for testing purposes it's enabled
 if (node['platform'] == 'ubuntu' && node['platform_version'].to_f >= 14.04) || (node['platform'] == 'centos' && node['platform_version'].to_f >= 7.0)
