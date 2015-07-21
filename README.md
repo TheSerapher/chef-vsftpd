@@ -16,7 +16,7 @@ Requirements
 
 ## Cookbooks:
 
-*No other cookbooks required*
+*openssl*
 
 Attributes
 ==========
