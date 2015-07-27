@@ -16,7 +16,7 @@ Requirements
 
 ## Cookbooks:
 
-*openssl*
+*openssl >= 4.2.0*
 
 Attributes
 ==========
@@ -51,6 +51,112 @@ Attributes
     <td><code>node['vsftpd']['config']</code></td>
     <td>Configuration array with key/value pairs.</td>
     <td>See <a href="https://security.appspot.com/vsftpd/vsftpd_conf.html">Manpage</a> for details</td>
+  </tr>
+  <!-- SSL attributes -->
+  <tr>
+    <td></td>
+    <td><center><B>SSL</B></center></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><code>node['vsftpd']['ssl']['']</code></td>
+    <td></td>
+    <td><code></code></td>
+  </tr>
+  <tr>
+    <td><code>node['vsftpd']['ssl']['enabled']</code></td>
+    <td>Whether to turn on SSL and create and/or use key and cert files.</td>
+    <td><code>false</code></td>
+  </tr>
+  <tr>
+    <td><code>node['vsftpd']['ssl']['tlsv1_enabled']</code></td>
+    <td>If SSL is used, whether to use TLS.</td>
+    <td>true when SSL is enabled</td>
+  </tr>
+  <tr>
+    <td><code>node['vsftpd']['ssl']['sslv2_enabled']</code></td>
+    <td>If SSL is enabled, whether to use SSLv2 or not.</td>
+    <td><code>false</code></td>
+  </tr>
+  <tr>
+    <td><code>node['vsftpd']['ssl']['sslv3_enabled']</code></td>
+    <td>If SSL is enabled, whether to use SSLv3 or not.</td>
+    <td><code>false</code></td>
+  </tr>
+  <tr>
+    <td><code>node['vsftpd']['ssl']['allow_anon']</code></td>
+    <td>Whether or not anonymous users are allowed to use SSL.</td>
+    <td><code>true</code></td>
+  </tr>
+  <tr>
+    <td><code>node['vsftpd']['ssl']['force_local_data']</code></td>
+    <td>If SSL is enabled and this is set to true, all non-anonymous users must use encrypted connections for sending data.</td>
+    <td><code>true</code></td>
+  </tr>
+  <tr>
+    <td><code>node['vsftpd']['ssl']['force_local_logins']</code></td>
+    <td>If SSL is enabled and this is set to true, all non-anonymous users must use SSL to send password.</td>
+    <td><code>true</code></td>
+  </tr>
+  <tr>
+    <td><code>node['vsftpd']['ssl']['cert']['public_cert_file']</code></td>
+    <td>The path to the public certificate file that will be created if it doesn't exist.</td>
+    <td><code>node['vsftpd']['etcdir'] + '/vsftpd.pem'</code></td>
+  </tr>
+  <tr>
+    <td><code>node['vsftpd']['ssl']['key']['private_key_file']</code></td>
+    <td>The path to the private key file used to sign the cert.  Will be created without a password if it does not exist. If it exists, it will be used to sign the public cert using the passphrase specified in node['vsftpd']['ssl']['pass'] attribute if set.</td>
+    <td><code>node['vsftpd']['etcdir'] + '/vsftpd.key'</code></td>
+  </tr>
+  <tr>
+    <td><code>node['vsftpd']['ssl']['cert']['common_name']</code></td>
+    <td>Value for the `CN` certificate field.</td>
+    <td>'www.example.com'</td>
+  </tr>
+  <tr>
+    <td><code>node['vsftpd']['ssl']['cert']['org']</code></td>
+    <td>Value for the 'O' certificate field.</td>
+    <td>'Example Company'</td>
+  </tr>
+  <tr>
+    <td><code>node['vsftpd']['ssl']['cert']['org_unit']</code></td>
+    <td>Value for the 'OU' certificate field.</td>
+    <td>'RND'</td>
+  </tr>
+  <tr>
+    <td><code>node['vsftpd']['ssl']['cert']['country']</code></td>
+    <td>Value for the 'C' SSL field.</td>
+    <td>'US'</td>
+  </tr>
+  <tr>
+    <td><code>node['vsftpd']['ssl']['cert']['expire_days']</code></td>
+    <td>Value representing the number of days from <I>now</I> through which the issued certificate cert will remain valid. The certificate will expire after this period. Defaults to no expiration.</td>
+    <td>nil</td>
+  </tr>
+  <tr>
+    <td><code>node['vsftpd']['ssl']['key']['length']</code></td>
+    <td>Length of private key in bits.</td>
+    <td><code>4096</code></td>
+  </tr>
+  <tr>
+    <td><code>node['vsftpd']['ssl']['key']['user']</code></td>
+    <td>Owner of the public certificate and private key file if they are created by this cookbook.</td>
+    <td><code>'root'</code></td>
+  </tr>
+  <tr>
+    <td><code>node['vsftpd']['ssl']['key']['group']</code></td>
+    <td>Group owning the public certificate and private key file created by this cookbook.</td>
+    <td><code>'root'</code></td>
+  </tr>
+  <tr>
+    <td><code>node['vsftpd']['ssl']['key']['mode']</code></td>
+    <td>Security permissions (in *NIX chmod(1) format) for the public certificate and private key files.</td>
+    <td><code>00400</code></td>
+  </tr>
+  <tr>
+    <td><code>node['vsftpd']['ssl']['key']['pass']</code></td>
+    <td>The password for an existing key file (if using your own). <B>This is incredibly insecure.</B>  Consider using an encrypted data bag or chef-vault instead of this attribute.</td>
+    <td><code>nil</code></td>
   </tr>
 </table>
 

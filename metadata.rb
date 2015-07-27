@@ -12,4 +12,4 @@ supports 'debian'
 supports 'centos'
 supports 'rhel'
 
-depends  'openssl'
+depends  'openssl',	'>= 4.2.0'
