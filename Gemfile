@@ -11,4 +11,5 @@ gem 'slop', '~> 3.6.0'
 group :integration do
   gem 'test-kitchen'
   gem 'kitchen-vagrant'
+  gem 'kitchen-openstack'
 end

@@ -2,3 +2,4 @@
 
 include_recipe 'vsftpd::_install'
 include_recipe 'vsftpd::_configure'
+include_recipe 'vsftpd::_ssl' unless node['vsftpd']['ssl']['enabled'] == false
