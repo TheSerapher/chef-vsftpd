@@ -13,3 +13,6 @@ supports 'centos'
 supports 'rhel'
 
 depends  'openssl',	'>= 4.2.0'
+
+source_url 'https://github.com/TheSerapher/chef-vsftpd' if respond_to?(:source_url)
+issues_url 'https://github.com/TheSerapher/chef-vsftpd/issues' if respond_to?(:issues_url)

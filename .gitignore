@@ -3,6 +3,7 @@
 /bin/
 /bundle/
 /vendor/gems/
+Gemfile.lock
 
 # Berkshelf
 /cookbooks/
