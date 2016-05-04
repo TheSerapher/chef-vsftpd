@@ -45,12 +45,12 @@ default['vsftpd']['ssl']['cert']['expire_days'] = nil
 
 # crypto, permissions, password
 # It is HIGHLY recommended that you do not change these settings without understanding the security implications.
-default['vsftpd']['ssl']['key']['length'] = 4096 
+default['vsftpd']['ssl']['key']['length'] = 4096
 default['vsftpd']['ssl']['key']['owner'] = 'root'
 default['vsftpd']['ssl']['key']['group'] = 'root'
 default['vsftpd']['ssl']['key']['mode'] = 00400
 # It is STRONGLY recommended that you consider using an encrypted data bag or chef-vault instead of this setting.
-default['vsftpd']['ssl']['key']['pass'] = nil    
+default['vsftpd']['ssl']['key']['pass'] = nil
 
 
 
@@ -128,10 +128,9 @@ default['vsftpd']['config'] = {
 	'rsa_private_key_file'        => node['vsftpd']['ssl']['key']['private_key_file']
 }
 
-
-
-
 # Addresses a compatibility breaking upgrade, might be better to set to NO explicitly but for testing purposes it's enabled
-if (node['platform'] == 'ubuntu' && node['platform_version'].to_f >= 14.04) || (node['platform'] == 'centos' && node['platform_version'].to_f >= 7.0)
+if (node['platform'] == 'ubuntu' && node['platform_version'].to_f >= 14.04) ||
+   (node['platform'] == 'centos' && node['platform_version'].to_f >= 7.0) ||
+   (node['platform'] == 'debian' && node['platform_version'].to_f >= 8.0)
   default['vsftpd']['config']['allow_writeable_chroot'] = 'YES'
 end
