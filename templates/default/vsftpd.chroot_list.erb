@@ -3,7 +3,7 @@
 # Changes will be overwritten after next
 # chef-client run
 
-<% if node['vsftpd']['chroot'] or node['vsftpd']['chroot'].nil? %>
+<% if node['vsftpd']['chroot'].to_a.empty? or node['vsftpd']['chroot'].nil? %>
        <% node['vsftpd']['chroot'].each do |user| %>
 <%= user %>
        <% end %>
