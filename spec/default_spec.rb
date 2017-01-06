@@ -8,7 +8,7 @@ describe 'vsftpd::default' do
       before(:all) do
         @chef_run = ChefSpec::SoloRunner.new(platform: platform,
                                              version: platform_version)
-        @chef_run.node.set['vsftpd'] = { 'allowed' => ['vagrant'], 'chroot' => ['vagrant'] }
+        @chef_run.node.normal['vsftpd'] = { 'allowed' => ['vagrant'], 'chroot' => ['vagrant'] }
         @chef_run.converge(described_recipe)
       end
 
@@ -18,7 +18,7 @@ describe 'vsftpd::default' do
       end
 
       # Directories
-      %w( /etc/vsftpd /etc/vsftpd/users.d ).each do |d|
+      %w(/etc/vsftpd /etc/vsftpd/users.d).each do |d|
         it 'should create directory ' + d do
           expect(@chef_run).to create_directory(d)
         end

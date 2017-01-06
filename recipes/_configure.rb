@@ -14,7 +14,8 @@ directory node['vsftpd']['config']['user_config_dir'] do
   recursive true
 end
 
-{ 'vsftpd.conf.erb' => node['vsftpd']['configfile'],
+{
+  'vsftpd.conf.erb' => node['vsftpd']['configfile'],
   'vsftpd.chroot_list.erb' => node['vsftpd']['config']['chroot_list_file'],
   'vsftpd.user_list.erb' => node['vsftpd']['config']['userlist_file']
 }.each do |template, destination|

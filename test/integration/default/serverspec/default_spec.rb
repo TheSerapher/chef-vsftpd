@@ -17,7 +17,7 @@ describe file('/etc/vsftpd') do
   it { should be_directory }
 end
 
-%w( /etc/vsftpd/vsftpd.chroot_list /etc/vsftpd/vsftpd.user_list ).each do |file_name|
+%w(/etc/vsftpd/vsftpd.chroot_list /etc/vsftpd/vsftpd.user_list).each do |file_name|
   describe file(file_name) do
     it { should be_file }
   end

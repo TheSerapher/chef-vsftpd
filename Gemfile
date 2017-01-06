@@ -3,13 +3,13 @@ source 'https://rubygems.org'
 
 gem 'berkshelf'
 gem 'chefspec'
+gem 'ci_reporter_rspec'
 gem 'foodcritic'
 gem 'rubocop'
-gem 'ci_reporter_rspec'
 gem 'slop', '~> 3.6.0'
 
 group :integration do
-  gem 'test-kitchen'
-  gem 'kitchen-vagrant'
   gem 'kitchen-openstack'
+  gem 'kitchen-vagrant'
+  gem 'test-kitchen'
 end
