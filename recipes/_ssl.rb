@@ -2,6 +2,15 @@ ssl_root = node['vsftpd']['ssl']
 key_root = ssl_root['key']
 cert_root = ssl_root['cert']
 
+key_dir = ::File:dirname(key_root)
+cert_dir = ::File:dirname(cert_root)
+
+[ key_dir, cert_dir ].each do | d |
+  directory d do
+    mode 0o755
+  end
+end
+
 openssl_x509 cert_root['public_cert_file'] do
   key_file key_root['private_key_file']
   common_name cert_root['common_name']
