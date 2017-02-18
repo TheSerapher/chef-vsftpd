@@ -1,17 +1,19 @@
 # encoding: utf-8
 
-if node['vsftpd']['enabled']
-  service 'vsftpd' do
-    provider Chef::Provider::Service::Upstart if node['platform'] == 'ubuntu' &&
-                                                 node['platform_version'].to_f >= 14.04
+service 'vsftpd' do
+  if node['platform'] == 'ubuntu'
+    if node['platform_version'].to_f >= 16.04
+      provider Chef::Provider::Service::Systemd
+    elsif node['platform_version'].to_f >= 14.04
+      provider Chef::Provider::Service::Upstart
+    end
+  end
+
+  if node['vsftpd']['enabled']
     action [:enable, :start]
-    supports restart: true
-  end
-else
-  service 'vsftpd' do
-    provider Chef::Provider::Service::Upstart if node['platform'] == 'ubuntu' &&
-                                                 node['platform_version'].to_f >= 14.04
+  else
     action [:disable, :stop]
-    supports restart: true
   end
+
+  supports restart: true
 end
